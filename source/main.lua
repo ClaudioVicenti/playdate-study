@@ -1,28 +1,12 @@
-import "dvd" -- DEMO
-local dvd = dvd(1, -1) -- DEMO
 
-local gfx <const> = playdate.graphics
-local font = gfx.font.new('font/Mini Sans 2X') -- DEMO
+import "CoreLibs/graphics"
 
-local function loadGame()
-	playdate.display.setRefreshRate(50) -- Sets framerate to 50 fps
-	math.randomseed(playdate.getSecondsSinceEpoch()) -- seed for math.random
-	gfx.setFont(font) -- DEMO
-end
+--Dichiaro 2 varaibili locali, rispettivamente 'playerX da 200' e 'playerY da 120'
+local playerX, playerY = 200, 120
+local playerRadius = 10
 
-local function updateGame()
-	dvd:update() -- DEMO
-end
-
-local function drawGame()
-	gfx.clear() -- Clears the screen
-	dvd:draw() -- DEMO
-end
-
-loadGame()
-
+--Questa funzione viene chiamata ogni il refresh dello schermo
+--La console va a 30 FPS, quindi viene chiamata 30 volte al secondo
 function playdate.update()
-	updateGame()
-	drawGame()
-	playdate.drawFPS(0,0) -- FPS widget
+	playdate.graphics.fillCircleAtPoint(playerX, playerY, playerRadius)
 end
