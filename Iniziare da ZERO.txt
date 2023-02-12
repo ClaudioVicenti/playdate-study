@@ -1,0 +1,68 @@
+--- Installazione dell'SDK ---
+- Scaricare l'SDK playdate
+- Installarlo magari cambiando il percorso che di default è nella cartella user
+    Hanno modificato il path perché hanno avuto problemi con i permessi
+- Mettere "C:\Program Files (x86)\PlaydateSDK"
+- Se si è scelto di installare in una cartella diversa da quella dell'utente, abilitare i permessi di 'everyone' alla cartella 'PlaydateSDK
+
+--- Configurare il sistema ---
+- Aggiungere il percorso dell'SDK alle variabili di ambiente
+    Propietà del sistema -> Avanzate -> Varaibili d'ambiente
+    Variabili di sistema -> Doppio click su 'Path' ->
+        In coda inserire 'C:\PERCORSO_SCELTO_SDK\PlaydateSDK\bin'
+    Variabili di sistema -> Nuova ->
+        Nome variabile: PLAYDATE_SDK_PATH
+        Valore variabile: C:\PERCORSO_SCELTO_SDK\PlaydateSDK
+
+--- Configurazione di Visual Studio Code ---
+- Installare le seguenti estensioni:
+    Lua: https://marketplace.visualstudio.com/items?itemName=sumneko.lua
+    Lua-plus: https://marketplace.visualstudio.com/items?itemName=jep-a.lua-plus
+
+--- Configurare il progetto (file di contorno) ---
+- Creazione cartella di configurazione '.vscode'
+    Inseriremo i file di configurazione per VSCode del progetto
+- Creazione cartella 'builds'
+    In questa carella verranno inseriti i progetti compilati (file da dare in pasto alla console)
+- Creazione file '.gitignore' (se si usa GIT)
+    Unica riga del file, (cartella da escludere): builds/*
+
+--- Carella '.vscode' ---
+- 'settings.json'
+    {
+    "Lua.runtime.version": "Lua 5.4",
+    "Lua.diagnostics.disable": ["undefined-global", "lowercase-global"],
+    "Lua.diagnostics.globals": ["playdate", "import"],
+    "Lua.runtime.nonstandardSymbol": ["+=", "-=", "*=", "/="],
+    "Lua.workspace.library": ["$PLAYDATE_SDK_PATH/CoreLibs"],
+    "Lua.workspace.preloadFileSize": 1000,
+    "playdate.sdkPath": "$PLAYDATE_SDK_PATH/PlaydateSDK"
+    }
+
+--- Configurare il progetto (core) ---
+- Come da guida SDK conviene strutturare le cartelle in questo modo
+    [myProjectName]/
+        source/
+            main.lua
+            ...and other .lua files
+            images/
+                [myImageFile1].png
+                [myImageFile2].png
+                ...and so on
+            sounds/
+                [myAudioFile1].wav
+                [myAudioFile2].mp3
+                ...and other ADPCM- or MP3-formatted files
+        support/
+            Project files including Photoshop assets, project outlines, etc.
+- In aggiunta alle cartelle predefinite, sullo stesso livello della carella 'source'
+    Inseriremo i file/cartelle di controno specificati sopra
+- All'interno della cartella 'source' è necessario creare un file di configurazione 'pdxinfo'
+    name=Your game's name
+    author=Your name
+    description=Description of your game
+    bundleID=com.yourname.yourgame
+    version=0.1
+    buildNumber=0001
+    imagePath=/images
+    launchSoundPath=/sounds
